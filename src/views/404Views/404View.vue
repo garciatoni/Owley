@@ -1,6 +1,6 @@
 <template>
     <div id="background" class="h-screen">
-        <h1 id="text" class="flex text-[300px] justify-center">!!!Armagedon!!!</h1>
+        <h1 id="text" class="flex text-[250px] justify-center">!!!Armagedon!!!</h1>
         <h1 id="text" class="flex text-[300px] justify-center">404</h1>
     </div>
 </template>

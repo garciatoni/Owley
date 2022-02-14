@@ -7,18 +7,17 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: HomeView,
+        component: () => import('../views/HomeView.vue'),
         children:[
             {
                 path: '',
                 name: 'DashBoard',
                 component: () => import('../views/HomeViews/DashBoardView.vue'),
-                alias: '/',
             },
             {
                 path: 'Search',
                 name: 'SearchGrid',
-                component: () => import('../views/HomeViews/CardGridView.vue')
+                component: () => import('../views/HomeViews/CardGridView.vue'),
             },      
             {
                 path: 'Card',
@@ -38,23 +37,6 @@ const routes = [
         component: () => import('../views/404Views/404View.vue')
     },      
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const router = createRouter({

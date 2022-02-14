@@ -8,7 +8,7 @@ export const useTemplateStore = defineStore('template', {
     }), 
 
     actions: {
-        incrementBy(valuenpm ){
+        incrementBy(value ){
             this.template += value;
             // this.template += 1;
         }

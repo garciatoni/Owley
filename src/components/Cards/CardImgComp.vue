@@ -6,16 +6,17 @@
     </div>
 
 
+
 </template>
 <script setup>
 
 import { ref } from 'vue';
 
     const image = defineProps({
-    img: String,
-    imgF: String,
-    imgB: String,
-    cardFace: String,
+        img: String,
+        imgF: String,
+        imgB: String,
+        cardFace: String,
     })
 
     const show = ref(true)
