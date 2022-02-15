@@ -5,15 +5,14 @@
                 <router-link :to="{ name: 'DashBoard' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
                     Home
                 </router-link>
-                <router-link :to="{ name: 'SearchGrid' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                    Counter
+                <router-link :to="{ name: 'SetsView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                    Sets
                 </router-link>
+
                 <router-link :to="{ name: 'AuthView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                     Login
                 </router-link>
-                <router-link :to="{ name: 'cardView' }" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
-                    Card
-                </router-link>
+
             </div>
 
             <SearchComp />

@@ -17,13 +17,23 @@ const routes = [
             {
                 path: 'Search',
                 name: 'SearchGrid',
-                component: () => import('../views/HomeViews/CardGridView.vue'),
+                component: () => import('../views/CardGridView.vue'),
             },      
             {
-                path: 'Card',
+                path: 'Search/Card/:id',
                 name: 'cardView',
                 component: () => import('../views/CardView.vue')
-            },     
+            },
+            {
+                path: 'Sets',
+                name: 'SetsView',
+                component: () => import('../views/sets/SetsView.vue'),
+            },
+            {
+                path: 'Sets/:code',
+                name: 'SetView',
+                component: () => import('../views/sets/SetView.vue'),
+            },
         ],  
     },
     {

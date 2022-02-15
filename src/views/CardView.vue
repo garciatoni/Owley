@@ -1,57 +1,96 @@
 <template>
-    <div v-if="card != ''">
-        <div id="background" :style="{ 'background-image': `url(${background})` }" class="min-h-[90vh]">
-            <div class="flex flex-col xl:flex-row md:p-5 pt-5 w-full xl:w-8/12 lg:mx-auto">
-                <div class="w-full xl:w-3/4">
-                    <div class="xl:w-3/4 flex">
+    <div v-if="background != ''" id="background" :style="{ 'background-image': `url(${background})` }" class="min-h-[90vh]">
+        <div class="min-h-[90vh]" id="informacion">
+            <div id="container" class="flex w-8/12 mx-auto min-h-[494px]">
+                <div class="w-[39%] flex justify-end">
+                    <div class="xl:w-3/4 p-2 bg-white">
                         <CardComp 
-                            class="xl:mt-5 p-2 md:p-0 xl:ml-3"
-                            :img="card.image_uris.png" 
+                            class=""
+                            :img="card.image_uris?.normal" 
+                            :imgF="card.card_faces && card.card_faces[0].image_uris.normal"
+                            :imgB="card.card_faces && card.card_faces[1].image_uris.normal"
                             :cardFace="card.layout"
                         />
                     </div>
                 </div>
-
-                <div class="w-11/12 flex m-5 bg-white flex-col px-4  rounded-lg opacity-80" id="information">
-                    <div class="bg-pink-300 w-4/6 mx-auto">
-                        a
+                <div class="w-[32%] bg-pink-100">
+                    <div class="m-3 bg-pink-300">
+                        <h1 class="text-[20px]">{{card.name}}</h1> 
+                        <h2>{{card.cmc}}</h2> 
+                        <h3>{{card.oracle_text}}</h3>
+                    </div>
+                </div>
+                <div class="w-[29%] bg-pink-300">
+                    <div class="m-5 bg-pink-100">
+                        <h1 @click="setRoutePush(card.set)">{{card.set_name}}</h1>
+                        <ul>
+                            <li v-for="print in prints" :key="print.id">
+                                <p @click="cardRoutePush(print.id)">{{print.set_name}}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import CardComp from '../components/Cards/CardImgComp.vue';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import CardService from '../services/useCardIdSearch';
+import CardComp from '../components/Cards/CardImgComp.vue';
 
-
-    const card = ref('');
+    const route = useRoute();
+    const router = useRouter();
+    const card = ref([]);
+    const prints = ref([])
     const background = ref('')
 
-    CardService.get('c8817585-0d32-4d56-9142-0d29512e86a9')
+    const setRoutePush = (code) => {
+        router.push({
+            name:'SetView',
+            params: { code } 
+        })
+    }
+    const cardRoutePush = (id) => {
+        router.push({
+            name:'cardView',
+            params: { id } 
+        })
+    }
+
+   const getCard = (id) =>{ 
+       CardService.get(id)
         .then( ({data}) => ( 
             card.value = data,
-            console.log(card.value.layout),
-            card.value.layout == 'normal' ? background.value=data.image_uris.art_crop : background.value=data.card_faces[0].image_uris.art_crop
+            card.value.layout == 'normal' ? background.value=data.image_uris.art_crop : background.value=data.card_faces[0].image_uris.art_crop,
+            fetch(card.value.prints_search_uri)
+                .then(resp => resp.json())
+                .then(({data:print}) => (prints.value = print))
         ))
+   };
+
+   onMounted(() => {
+        getCard(route.params.id);
+   });
+
+    watch(route, () => {
+        if(!route.params.id) return;
+        getCard(route.params.id)
+    });
 
 </script>
 <style scoped>
 
 
     #background{
-        background-position: top;
+        background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
     }
 
     #informacion{
         backdrop-filter: blur(10px);
-        height: 100%;
-        flex: 1;
     }
 
   

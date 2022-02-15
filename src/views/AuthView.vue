@@ -48,7 +48,7 @@ const spin = (activo) => {
 }
 
 
-  
+
 </script>
 <style scoped>
 

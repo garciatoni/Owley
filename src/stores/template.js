@@ -5,6 +5,7 @@ export const useTemplateStore = defineStore('template', {
     state: () => ({
         template: 23,
         template2: 0,
+        
     }), 
 
     actions: {
