@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-
+import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
@@ -19,8 +19,24 @@ export const useUserStore = defineStore('userStore', {
     },
 
     actions: {
-        incrementBy(value ){
-            this.user = value;
+
+        // setUser(auth, Email, Username, Password){
+        //     createUserWithEmailAndPassword(auth, Email, Password)
+        //     .then((userCredential) => {
+        //         const User = userCredential.user;
+        //         this.user = User
+        //         updateProfile(auth.currentUser, {displayName: Username})
+        //             .then( console.log(user))
+        //         })
+        //         .catch((error) => {
+        //             const errorCode = error.code;
+        //             const errorMessage = error.message;
+        //         });
+        // },
+
+        setUser(user){
+            this.user = user
         }
+            
     }
 })

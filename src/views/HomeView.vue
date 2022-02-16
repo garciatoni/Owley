@@ -13,8 +13,7 @@
 import FooterCompVue from '../components/ui/FooterComp.vue';
 import HeaderComp from '../components/ui/HeaderComp.vue';
 
-import { useUserStore } from '../stores/userStore';
-const userStore = useUserStore();
+
 const ObtenerGetUser = userStore.getUser;
 
 // import { useTemplateStore  } from '../stores/template';

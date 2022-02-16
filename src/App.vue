@@ -1,5 +1,5 @@
 <script setup>
-
+import { useUserStore } from './stores/userStore';
 </script>
 
 <template>
@@ -7,5 +7,6 @@
 </template>
 
 <style>
+
 
 </style>

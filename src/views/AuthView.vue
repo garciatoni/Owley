@@ -4,7 +4,7 @@
 
         <div id="menus" class="w-full lg:w-1/2 flex">
 
-            <div class="mx-auto mb-20 items-center h-[75%] w-[99%] md:w-9/12 lg:w-11/12 xl:w-8/12 self-center" >
+            <div class="mx-auto items-center h-full md:h-[75%] w-[99%] md:w-9/12 lg:w-11/12 xl:w-8/12 self-center" >
                 
                 <div class="flex flex-row justify-between border-b-1 mb-2 opacity-90 ">
                     <button :class="!active ? 'bg-[#160927]' : 'bg-[#745a94]' " @click="spin(false)" >Log In</button>
@@ -15,6 +15,7 @@
                     <LoginFormComponent v-bind:style="{'transform': transformf}" class="front"/>
                     <RegisterFormComp v-bind:style="{'transform': transformb}" class="back"/>
                 </div>
+
             </div>
         </div>
 
