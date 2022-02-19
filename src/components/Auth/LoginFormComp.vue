@@ -30,7 +30,7 @@
                     <p class="font-bold">Log In</p>
                 </button>
             </div>
-            <div class="flex justify-center">
+            <div @click="logut()" class="flex justify-center">
                 <p class="cursor-pointer text-white">Forgot Your Password?</p>
             </div>
 
@@ -44,13 +44,14 @@
   
 <script setup>
 // import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+// import { auth } from '../../firebase.js';
 import { ref } from "vue";
 import { useUserStore } from '../../stores/userStore';
 import { useRouter } from "vue-router";
 import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 
-    const email = ref('');
-    const password = ref('');
+    const email = ref('a@gmail.com');
+    const password = ref('a@gmail.com');
 
     const router = useRouter();
     const userStore = useUserStore();
@@ -81,26 +82,19 @@ import AutoAuthButton from '../buttons/AutoAuthButton.vue';
     const LoginWithEmail = (Email, Password) => {
         
         //TODO capturar errores y mostrarlos vue toast.
-        
-        userStore.loginWhitEmail(Email, Password);
-        
-        email.value = password.value = '';
 
-            // router.push({name:'home'})
+
+        userStore.loginWhitEmail(Email, Password)
+
+        email.value = password.value = '';
 
 
     }
+
+    const logut = () => {
+        userStore.signOut();
+    }
   
-
-// import { getAuth, signOut } from "firebase/auth";
-
-// const auth = getAuth();
-// signOut(auth).then(() => {
-//   // Sign-out successful.
-// }).catch((error) => {
-//   // An error happened.
-// });
-
   
 </script>
   

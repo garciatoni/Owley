@@ -1,6 +1,6 @@
 <template>
 
-    <div id="background" class="h-screen flex divide-x-1 divide-[#ffffff]">
+    <div v-if="!auth.currentUser" id="background" class="h-screen flex divide-x-1 divide-[#ffffff]">
 
         <div id="menus" class="w-full lg:w-1/2 flex">
 
@@ -27,10 +27,10 @@
 
 </template>
 <script setup>
-
+import { auth } from '../../firebase.js';
 import { ref } from 'vue';
-import LoginFormComponent from '../components/Auth/LoginFormComp.vue';
-import RegisterFormComp from '../components/Auth/RegisterFormComp.vue';
+import LoginFormComponent from '../../components/Auth/LoginFormComp.vue';
+import RegisterFormComp from '../../components/Auth/RegisterFormComp.vue';
 
 const active = ref(false);
 const transformf = ref('rotateY(0deg)');

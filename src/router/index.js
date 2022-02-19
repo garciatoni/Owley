@@ -1,17 +1,19 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import HomeView  from "../views/HomeView.vue";
-import AuthView from '../views/AuthView.vue';
-
+import AuthView from '../views/AuthViews/AuthView.vue';
+import { useUserStore } from '../stores/userStore.js';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase.js";
 
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'DashBoard',
         component: () => import('../views/HomeView.vue'),
         children:[
             {
                 path: '',
-                name: 'DashBoard',
+                name: 'home',
                 component: () => import('../views/HomeViews/DashBoardView.vue'),
             },
             {
@@ -28,6 +30,9 @@ const routes = [
                 path: 'Sets',
                 name: 'SetsView',
                 component: () => import('../views/sets/SetsView.vue'),
+                meta:{
+                    requiresAuth: true,
+                }
             },
             {
                 path: 'Sets/:code',
@@ -37,9 +42,16 @@ const routes = [
         ],  
     },
     {
-        path: '/AuthView',
+        path: '/Auth',
         name: 'AuthView',
-        component: AuthView,
+        component: () => import('../views/AuthViews/AuthView.vue'),
+        children:[
+            {
+                path: '/FinishSignUp',
+                name: 'finishSignUp',
+                component: () => import('../views/AuthViews/finishSignUpView.vue'),
+            },
+        ],
     },
     {
         path: '/:pathMatch(.*)*',
@@ -48,10 +60,24 @@ const routes = [
     },      
 ]
 
-
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes
+    history: createWebHistory(),
+    routes,
+    
 });
+
+router.beforeEach((to, from, next) => {
+
+    if(to.path === '/Auth' && auth.currentUser){
+        next('/');
+        return;
+    }
+    if(to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser ){
+        next('/Auth');
+        return;
+    }
+
+    next();
+})
 
 export default router;

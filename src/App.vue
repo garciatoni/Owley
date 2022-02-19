@@ -1,11 +1,14 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useUserStore } from './stores/userStore';
 //Reviso si hay usuarios conectados y los añado a pinia user.
+
+onBeforeMount(() => {
   const userStore = useUserStore();
-  onMounted(() => {
-    userStore.onAuthStateChanged();
-  });
+  userStore.fetchUser();
+})
+  // onMounted(() => {
+  // });
 </script>
 
 <template>

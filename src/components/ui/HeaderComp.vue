@@ -11,7 +11,7 @@
 
                 <!-- <p>{{userStore.user.displayName}}</p> -->
 
-                <router-link v-if="!userStore.user" :to="{ name: 'AuthView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+                <router-link :to="{ name: 'AuthView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                     Login
                 </router-link>
 

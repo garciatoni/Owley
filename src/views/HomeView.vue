@@ -9,10 +9,16 @@
 
 </template>
 
+
+
 <script  setup>
 import FooterCompVue from '../components/ui/FooterComp.vue';
 import HeaderComp from '../components/ui/HeaderComp.vue';
 
+
+
+// const userStore = useUserStore();
+// userStore.onAuthStateChanged();
 
 // const ObtenerGetUser = userStore.getUser;
 
