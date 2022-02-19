@@ -9,7 +9,9 @@
                     Sets
                 </router-link>
 
-                <router-link :to="{ name: 'AuthView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+                <!-- <p>{{userStore.user.displayName}}</p> -->
+
+                <router-link v-if="!userStore.user" :to="{ name: 'AuthView' }" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
                     Login
                 </router-link>
 
@@ -22,6 +24,10 @@
   
 <script setup>
 import SearchComp from './SearchComp.vue';
+import { useUserStore } from '../../stores/userStore';
+
+const userStore = useUserStore();
+
 
     
 

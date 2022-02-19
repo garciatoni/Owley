@@ -14,7 +14,7 @@ import FooterCompVue from '../components/ui/FooterComp.vue';
 import HeaderComp from '../components/ui/HeaderComp.vue';
 
 
-const ObtenerGetUser = userStore.getUser;
+// const ObtenerGetUser = userStore.getUser;
 
 // import { useTemplateStore  } from '../stores/template';
 // import { storeToRefs } from 'pinia';
