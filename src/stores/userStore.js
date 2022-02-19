@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword ,onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase.js';
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
@@ -11,32 +12,48 @@ export const useUserStore = defineStore('userStore', {
         // getUser(){
         //     return this.user
         // },
-        
-        getUser: state => state.user,
-
-
 
     },
 
     actions: {
+        test(){
+            console.log('first')
+        },
 
-        // setUser(auth, Email, Username, Password){
-        //     createUserWithEmailAndPassword(auth, Email, Password)
-        //     .then((userCredential) => {
-        //         const User = userCredential.user;
-        //         this.user = User
-        //         updateProfile(auth.currentUser, {displayName: Username})
-        //             .then( console.log(user))
-        //         })
-        //         .catch((error) => {
-        //             const errorCode = error.code;
-        //             const errorMessage = error.message;
-        //         });
-        // },
+        sigInWhitEmail(Email, Username, Password){
+            createUserWithEmailAndPassword(auth, Email, Password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                updateProfile(auth.currentUser, {displayName: Username});
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+        },
 
-        setUser(user){
-            this.user = user
+        onAuthStateChanged(){
+            onAuthStateChanged(auth, (user) => {
+                if (user.displayName) {
+                    this.user = user
+                } else {
+                    console.warn('No login')
+                }
+            });
+        },
+
+        loginWhitEmail(Email, Password){
+            signInWithEmailAndPassword(auth, Email, Password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                this.user = user
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+
         }
             
     }
-})
+});

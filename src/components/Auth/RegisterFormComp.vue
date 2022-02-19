@@ -52,47 +52,34 @@
 </template>
   
 <script setup>
-import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
-import { auth } from '../../firebase';
+// import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
+// import { auth } from '../../firebase';
+import { useUserStore } from '../../stores/userStore';
 import { ref } from "vue";
 
 //Components
 import AutoAuthButton from '../buttons/AutoAuthButton.vue';
-import { useUserStore } from '../../stores/userStore';
 
     const userStore = useUserStore();
-    const email = ref('');
-    const username = ref('');
-    const password = ref('');
-    const passwordConfirm = ref('');
+    const email = ref('a@gmail.com');
+    const username = ref('a@gmail.com');
+    const password = ref('a@gmail.com');
+    const passwordConfirm = ref('a@gmail.com');
     
 
     const SignInEmail = async (Email, Username, Password, PasswordConfirm) => {
         if(Password!=PasswordConfirm || Password.length < 7) throw new Error('Las dos contraseñas deben coincidir');
-         //PENDIENTE DE ARREGLAR  ^^^^^^
 
+        //TODO capturar errores y mostrarlos vue toast.
 
-        // userStore.setUser(auth, Email, Username, Password);
+        userStore.sigInWhitEmail(Email, Username, Password);
 
-
-        createUserWithEmailAndPassword(auth, Email, Password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                
-                updateProfile(auth.currentUser, {displayName: Username})
-                    .then( 
-                        // console.log(user),
-                        // userStore.setUser(user),
-                        // console.log(userStore.getUser())
-                    )
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
         email.value = username.value = password.value = passwordConfirm.value = '';
-        
     }
+
+    
+
+
 
     
 </script>

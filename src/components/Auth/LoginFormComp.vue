@@ -4,21 +4,19 @@
             <h1 class="text-white text-[3em]">Log In</h1>
             <div class="flex justify-center">
                 <input 
-                    id="input"
                     autocomplete 
                     v-model="email"
                     type="email" 
-                    class="focus:placeholder-gray-400" 
+                    class="focus:placeholder-gray-400 input" 
                     placeholder="Email" 
                     aria-label="email"
                 />
             </div>
             <div class="flex justify-center">
                 <input 
-                    id="input"
                     v-model="password"
                     type="password" 
-                    class="focus:placeholder-gray-400" 
+                    class="focus:placeholder-gray-400 input" 
                     placeholder="Password" 
                     aria-label="Password"
                 />
@@ -45,41 +43,52 @@
 </template>
   
 <script setup>
-import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+// import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { ref } from "vue";
-import { auth } from '../../firebase';
+import { useUserStore } from '../../stores/userStore';
+import { useRouter } from "vue-router";
 import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 
     const email = ref('');
     const password = ref('');
 
-    const LoginWithGoogle = async () =>{
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                const user = result.user;
-                console.log(token)
-                console.log(user)
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
-            });
-    }
+    const router = useRouter();
+    const userStore = useUserStore();
+
+
+    //TODO Pasar el login con google a pinia.
+    // const LoginWithGoogle = async () =>{
+        //     const provider = new GoogleAuthProvider();
+    //     signInWithPopup(auth, provider)
+    //         .then((result) => {
+        //             const credential = GoogleAuthProvider.credentialFromResult(result);
+    //             const token = credential.accessToken;
+    //             const user = result.user;
+    //             userStore.setUser(user);
+
+    //             router.push({
+        //                 name:'home',
+    //             })
+
+    //         }).catch((error) => {
+    //             const errorCode = error.code;
+    //             const errorMessage = error.message;
+    //             const email = error.email;
+    //             const credential = GoogleAuthProvider.credentialFromError(error);
+    //         });
+    // }
 
     const LoginWithEmail = (Email, Password) => {
-        signInWithEmailAndPassword(auth, Email, Password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user)
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
+        
+        //TODO capturar errores y mostrarlos vue toast.
+        
+        userStore.loginWhitEmail(Email, Password);
+        
+        email.value = password.value = '';
+
+            // router.push({name:'home'})
+
+
     }
   
 
@@ -96,7 +105,7 @@ import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 </script>
   
 <style scoped>
-    #input{
+    .input{
         background-color: #374151;
         border-bottom-width: 1px;
         border-radius: 0.125rem;
@@ -109,7 +118,7 @@ import AutoAuthButton from '../buttons/AutoAuthButton.vue';
         width: 100%;
     }
 
-    #input:focus{
+    .input:focus{
         outline: none;
     }
 
