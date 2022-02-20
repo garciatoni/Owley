@@ -15,6 +15,8 @@
                     Login
                 </router-link>
 
+                <p class="text-white" @click="userStore.signOut()">Logout</p>
+
             </div>
 
             <SearchComp />

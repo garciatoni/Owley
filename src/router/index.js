@@ -45,14 +45,12 @@ const routes = [
         path: '/Auth',
         name: 'AuthView',
         component: () => import('../views/AuthViews/AuthView.vue'),
-        children:[
-            {
-                path: '/FinishSignUp',
-                name: 'finishSignUp',
-                component: () => import('../views/AuthViews/finishSignUpView.vue'),
-            },
-        ],
     },
+    // {
+    //     path: '/Auth/FinishSignUp',
+    //     name: 'finishSignUp',
+    //     component: () => import('../views/AuthViews/finishSignUpView.vue'),
+    // },
     {
         path: '/:pathMatch(.*)*',
         name: '404Error',
@@ -68,7 +66,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
-    if(to.path === '/Auth' && auth.currentUser){
+    if(to.path === '/Auth' && auth.currentUser?.emailVerified){
+        next('/');
+        return;
+    }
+    if(to.path === '/Auth/FinishSignUp' && auth.currentUser?.emailVerified){
         next('/');
         return;
     }

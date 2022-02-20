@@ -61,10 +61,10 @@ import { ref } from "vue";
 import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 
     const userStore = useUserStore();
-    const email = ref('a@gmail.com');
-    const username = ref('a@gmail.com');
-    const password = ref('a@gmail.com');
-    const passwordConfirm = ref('a@gmail.com');
+    const email = ref('garciabarreratoni@gmail.com');
+    const username = ref('Toni');
+    const password = ref('1234567');
+    const passwordConfirm = ref('1234567');
     
 
     const SignInEmail = async (Email, Username, Password, PasswordConfirm) => {
