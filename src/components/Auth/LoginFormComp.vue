@@ -50,8 +50,8 @@ import { useUserStore } from '../../stores/userStore';
 import { useRouter } from "vue-router";
 import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 
-    const email = ref('a@gmail.com');
-    const password = ref('a@gmail.com');
+    const email = ref('');
+    const password = ref('');
 
     const router = useRouter();
     const userStore = useUserStore();
