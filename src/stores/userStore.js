@@ -105,15 +105,17 @@ export const useUserStore = defineStore('userStore', {
         fetchUser(){
             onAuthStateChanged(auth, async (user) => {
                 if (user?.emailVerified) {
-                    console.warn(user)
+                    console.log("Loged")
                     this.user = user
-                    if(router.isReady() && router.currentRoute.value.path === '/Auth'){
+                    if(router.currentRoute.value.path === '/Auth'){
                         router.push('/')
-                    } else{
-                      router.push('/')
                     }
                 }else{
-                    console.warn('NO Loged');
+                    if(user){
+                        console.warn('NO Loged con user');
+                    }else{
+                        console.warn('NO Loged de verdad');
+                    }
                     this.user = null;
                 }
             });

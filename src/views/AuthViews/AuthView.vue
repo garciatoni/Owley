@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="!auth.currentUser" id="background" class="h-screen flex divide-x-1 divide-[#ffffff]">
+    <div v-if="!auth.currentUser?.emailVerified" id="background" class="h-screen flex divide-x-1 divide-[#ffffff]">
 
         <div id="menus" class="w-full lg:w-1/2 flex">
 

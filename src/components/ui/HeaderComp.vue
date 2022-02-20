@@ -22,6 +22,7 @@
             <SearchComp />
         </div>
     </nav>
+    
 </template>
   
 <script setup>
@@ -29,9 +30,6 @@ import SearchComp from './SearchComp.vue';
 import { useUserStore } from '../../stores/userStore';
 
 const userStore = useUserStore();
-
-
-    
 
   
   

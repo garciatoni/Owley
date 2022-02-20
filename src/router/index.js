@@ -65,21 +65,34 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    const userStore = useUserStore()
 
-    if(to.path === '/Auth' && auth.currentUser?.emailVerified){
+    if(to.path === '/Auth' && !!auth.currentUser?.emailVerified === true ){
         next('/');
         return;
     }
-    if(to.path === '/Auth/FinishSignUp' && auth.currentUser?.emailVerified){
+    if(to.path === '/Auth/FinishSignUp' && !!auth.currentUser?.emailVerified === true){
         next('/');
         return;
     }
-    if(to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser ){
-        next('/Auth');
-        return;
+    if(to.matched.some(record => record.meta.requiresAuth)){
+        onAuthStateChanged(auth, async (user) => {
+            if(user){
+                if(to.matched.some(record => record.meta.requiresAuth) && user.emailVerified === false){
+                    console.log('first')
+                    router.push('/Auth')
+                    return;
+                }
+            }else if (!user){
+                router.push('/Auth')
+                return;
+            }
+        });
     }
 
     next();
+    
+
 })
 
 export default router;

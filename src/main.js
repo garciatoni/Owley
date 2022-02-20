@@ -4,9 +4,8 @@ import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
 
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from './firebase';
 
+import 'tw-elements';
 import './index.css';
 
 
