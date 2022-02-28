@@ -1,31 +1,29 @@
 <template>
-
-
-
-    <ul v-if="validSearch" class="grid grid-cols-4 gap-1 w-8/12 mx-auto m-10">
-        <CardImgComp 
-            v-for="card in cards.data" 
-            @click="cardRoutePush(card.id)"
-            :key="card.id" 
-            :img="card.image_uris?.normal"
-            :imgF="card.card_faces && card.card_faces[0]?.image_uris.normal"
-            :imgB="card.card_faces && card.card_faces[1]?.image_uris.normal"
-            :cardFace="card.layout"
-        />
-    </ul>
-
-    <p v-else>
-        No hay cartas
-    </p>
-
-
+    <div class="container mx-auto pt-5">
+        <ul v-if="validSearch" class="grid grid-cols-5 gap-2">
+            <CardImgComp 
+                v-for="card in cards.data" :key="card.id"
+                @click="cardRoutePush(card.id)"
+                id="zoom"
+                class="rounded-[0.74rem]"
+                :cardFace="card.layout"
+                :img="card.image_uris?.normal"
+                :imgF="card.card_faces"
+            />
+        </ul>   
+        <p v-else>
+            No hay cartas
+        </p>
+    </div>
+        
 </template>
   
 <script setup>
-import CardImgComp from '../components/Cards/CardImgComp.vue';
 import { onMounted, ref, watch } from 'vue';
-import useCardSearch from '../services/useCardSearch'
 import { useRoute, useRouter } from 'vue-router';
+import useCardSearch from '../services/useCardSearch'
+
+import CardImgComp from '../components/Cards/CardImgComp.vue';
 
     const route = useRoute();
     const cards = ref([])
@@ -38,8 +36,6 @@ import { useRoute, useRouter } from 'vue-router';
             params: { id } 
         })
     }
- 
-
 
     onMounted(() => {
         if(route.query.q){
@@ -62,15 +58,18 @@ import { useRoute, useRouter } from 'vue-router';
         }
     });
 
-
-
-
-
-  
 </script>
   
 <style scoped>
 
 
-  
+#zoom {
+    transition: transform .2s;
+    transform: scale(1);
+    
+}
+#zoom:hover {
+    transform: scale(1.07);
+    z-index: 5;
+}
 </style>

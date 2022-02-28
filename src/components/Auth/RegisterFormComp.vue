@@ -1,6 +1,6 @@
 <template>
-      <form @submit.prevent="SignInEmail(email, username, password, passwordConfirm)" class="h-full p-5  bg-[#160927] rounded-b-lg" aria-label="Log In">
-        <div class="xl:w-[65%] mx-auto flex flex-col space-y-6 h-full justify-center">
+      <form @submit.prevent="SignInEmail(email, username, password, passwordConfirm)" class="h-full p-5 w-full border-2 border-[#402868] bg-[#160927] rounded-b-lg" aria-label="Log In">
+        <div class="xl:w-[75%] mx-auto flex flex-col space-y-6 h-full justify-center">
             <h1 class="text-white text-[3em]">Sign In</h1>
             <div class="flex justify-center">
                 <input 
@@ -42,29 +42,41 @@
                     <p class="font-bold">Sign In</p>
                 </button>
             </div>
-            
-            <AutoAuthButton img="https://img.icons8.com/color/40/000000/google-logo.png" text="Sign In With Google" />
 
-            <AutoAuthButton img="https://img.icons8.com/external-justicon-flat-justicon/40/000000/external-facebook-social-media-justicon-flat-justicon.png" text="Sign In With Facebook" />
+            <div class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
+                <p class="text-center font-semibold mx-4 mb-0 text-white">Or</p>
+            </div>
+
+            <div class="flex flex-row items-center justify-center space-x-10">
+                <!-- <p class="text-lg mb-0 mr-4 text-white">Log in with</p> -->
+
+                <AutoButton img="facebook" />
+
+                <AutoButton @click="LoginWithGoogle()" img="google" />
+
+                <AutoButton img="github" />
+            </div>
 
         </div>
     </form>
 </template>
   
 <script setup>
-// import { createUserWithEmailAndPassword, updateProfile  } from "firebase/auth";
-// import { auth } from '../../firebase';
 import { useUserStore } from '../../stores/userStore';
 import { ref } from "vue";
 
 //Components
-import AutoAuthButton from '../buttons/AutoAuthButton.vue';
+import AutoButton from '../buttons/AutoButton.vue';
 
     const userStore = useUserStore();
     const email = ref('');
     const username = ref('');
     const password = ref('');
     const passwordConfirm = ref('');
+
+    const LoginWithGoogle = async () =>{
+        userStore.signInWithGoogle();
+    }
     
 
     const SignInEmail = async (Email, Username, Password, PasswordConfirm) => {
@@ -85,6 +97,9 @@ import AutoAuthButton from '../buttons/AutoAuthButton.vue';
 </script>
   
 <style scoped>
+    form{
+        border-radius: 0 0 20px 20px;
+    }
 
     input{
         background-color: #374151;

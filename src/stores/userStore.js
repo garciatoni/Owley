@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { createUserWithEmailAndPassword, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail, signOut, updateProfile, signInWithPopup, GoogleAuthProvider, sendEmailVerification, signInWithEmailAndPassword ,onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithRedirect, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail, signOut, updateProfile, signInWithPopup, GoogleAuthProvider, sendEmailVerification, signInWithEmailAndPassword ,onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase.js';
 import router from '../router'
 
@@ -66,6 +66,22 @@ export const useUserStore = defineStore('userStore', {
         //       }
         // },
 
+        signInWithGoogle(){
+            const provider = new GoogleAuthProvider();
+            signInWithRedirect(auth, provider)
+                .then((result) => {
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    const user = result.user;
+                    this.user = user;
+                }).catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    const email = error.email;
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                });
+        },
+
 
         sigInWhitEmail(Email, Username, Password){
             // const actionCodeSettings = {
@@ -124,9 +140,13 @@ export const useUserStore = defineStore('userStore', {
         loginWhitEmail(Email, Password){
             signInWithEmailAndPassword(auth, Email, Password)
                 .then((userCredential) => {
-                    const user = userCredential.user;
-                    this.user = user;
-                    router.push({name:'home'})
+                    if(user.emailVerified){
+                        const user = userCredential.user;
+                        this.user = user;
+                        router.push({name:'home'})
+                    }else{
+                        signOut(auth)
+                    }
                 })
                 .catch((error) => {
                     const errorCode = error.code;

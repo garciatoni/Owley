@@ -56,6 +56,7 @@ watch(url, () => (
     fetch(url.url)
         .then(resp => resp.json())
         .then((data) => (cardsList.value = data.data))
+        .then(console.log(cardsList.value))
 ))
 
 </script>

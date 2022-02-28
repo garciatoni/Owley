@@ -1,7 +1,7 @@
 <template>
-  
+
     <cardSetGrid :url="url" />
-  
+
 </template>
 <script setup>
     import { ref } from 'vue';
@@ -13,7 +13,7 @@
     const url = ref('');
 
     useSetsId.get(code)
-        .then(({data}) => url.value = data.search_uri)
+        .then(({data}) => url.value = data.search_uri, console.log(url.value))
   
 </script>
 <style scoped>

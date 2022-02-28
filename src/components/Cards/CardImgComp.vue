@@ -1,10 +1,22 @@
 <template>
-<img v-if="image.cardFace == 'normal' || image.cardFace == 'host' " :src="image.img" alt="imagen.img">
+    <img v-if="image.cardFace == 'normal' || image.cardFace == 'host' || image.cardFace == 'split' || image.cardFace == 'leveler' || image.cardFace == 'flip'" :src="image.img" alt="imagen.img">
     <div v-else>
         <button class="border-2 z-10 border-black"  @click="spin()" >Log In</button>
-        <img  class="front " v-bind:style="{'transform': transformf}" :src="image.imgF" alt="">
-        <img class="back" v-bind:style="{'transform': transformb}" :src="image.imgB" alt="">
+        <img class="front " :style="{'transform': transformf}" :src="imgF[0].image_uris.normal" alt="">
+        <img class="back" :style="{'transform': transformb}" :src="imgF[1].image_uris.normal" alt="">
     </div>
+
+    <!-- <div v-if="image.cardFace == 'normal' || image.cardFace == 'host' || image.cardFace == 'split' || image.cardFace == 'leveler' || image.cardFace == 'flip'">
+
+    </div>
+    <div v-else>
+        <img  :src="image.imgB" alt="">
+        <img  :src="image.imgF" alt="">
+        {{Array.isArray(image.imgF)}}
+        {{image.imgF[0].image_uris.normal}}
+        
+        <br>
+    </div> -->
 
 
 </template>
@@ -13,14 +25,14 @@
 import { ref } from 'vue';
 const image = defineProps({
     img: String,
-    imgF: String,
-    imgB: String,
+    imgF: Object,
     cardFace: String,
 })
 
 const active = ref(false);
 const transformf = ref('rotateY(0deg)');
 const transformb = ref('rotateY(-180deg)');
+
 const spin = () => {
     active.value = !active.value
     if(active.value){
@@ -36,9 +48,9 @@ const spin = () => {
 </script>
 <style scoped>
 
-img{
+/* img{
     max-width: 343px;
-}
+} */
 .front, .back {
     backface-visibility: hidden;
     position: relative;
@@ -47,6 +59,7 @@ img{
     position: absolute;
     z-index: 2;
     transition: all 0.5s linear;
+    transform: scale(1);
 }
 .back {
     /* position: absolute; */

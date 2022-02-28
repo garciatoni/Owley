@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView  from "../views/HomeView.vue";
-import AuthView from '../views/AuthViews/AuthView.vue';
-import { useUserStore } from '../stores/userStore.js';
+// import HomeView  from "../views/HomeView.vue";
+// import AuthView from '../views/AuthViews/AuthView.vue';
+// import { useUserStore } from '../stores/userStore.js';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.js";
 
@@ -39,6 +39,14 @@ const routes = [
                 name: 'SetView',
                 component: () => import('../views/sets/SetView.vue'),
             },
+            {
+                path: 'Profile',
+                name: 'UserProfile',
+                component: () => import('../views/AuthViews/UserProfileView.vue'),
+                meta:{
+                    requiresAuth: true,
+                }
+            },
         ],  
     },
     {
@@ -65,7 +73,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const userStore = useUserStore()
+    // const userStore = useUserStore()
 
     if(to.path === '/Auth' && !!auth.currentUser?.emailVerified === true ){
         next('/');

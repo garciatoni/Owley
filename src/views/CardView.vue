@@ -1,41 +1,49 @@
 <template>
-    <div v-if="background != ''" id="background" :style="{ 'background-image': `url(${background})` }" class="min-h-[90vh]">
-        <div class="min-h-[90vh]" id="informacion">
-            <div id="container" class="flex w-8/12 mx-auto min-h-[494px]">
-                <div class="w-[39%] flex justify-end">
-                    <div class="xl:w-3/4 p-2 bg-white">
+    <div v-if="background != ''" id="background" :style="{ 'background-image': `url(${background})` }" class="">
+        <div class="min-h-[85vh] p-2" id="informacion">
+            <div id="container" class="bg-purple-300 p-2 container flex mx-auto">
+
+                <div class="flex justify-center p-2 grow">
+                    <div class="p-2 w-[80%]">
+
                         <CardComp 
                             class=""
-                            :img="card.image_uris?.normal" 
-                            :imgF="card.card_faces && card.card_faces[0].image_uris.normal"
-                            :imgB="card.card_faces && card.card_faces[1].image_uris.normal"
+                            :img="card.image_uris?.border_crop" 
+                            :imgF="card.card_faces"
                             :cardFace="card.layout"
                         />
+
                     </div>
                 </div>
-                <div class="w-[32%] bg-pink-100">
-                    <div class="m-3 bg-pink-300">
+
+                <div class="flex min-w-[37%] max-w-[37%] p-2">
+                    <div class="bg-pink-300 w-[90%] mx-auto">
                         <h1 class="text-[20px]">{{card.name}}</h1> 
                         <h2>{{card.cmc}}</h2> 
                         <h3>{{card.oracle_text}}</h3>
                     </div>
                 </div>
-                <div class="w-[29%] bg-pink-300">
-                    <div class="m-5 bg-pink-100">
-                        <h1 @click="setRoutePush(card.set)">{{card.set_name}}</h1>
-                        <ul>
-                            <li v-for="print in prints" :key="print.id">
-                                <p @click="cardRoutePush(print.id)">{{print.set_name}}</p>
+ 
+                <div class="min-w-[28%] p-2 max-w-[28%]">
+                    <div class="bg-pink-100 w-[90%]  mx-auto">
+                        <h1 class="py-3 text-center text-xl bg-slate-500" @click="setRoutePush(card.set)">{{card.set_name}}</h1>
+                        <form class="flex px-3 py-1 bg-slate-400">
+                            <input v-model="filter" type="text" placeholder="Search sets" name="filter" class="w-full outline-none">
+                        </form>
+                        <ul class="max-h-[485px] overflow-auto">
+                            <li v-for="print in setsSearched" :key="print.id">
+                                <p class="text-lg cursor-pointer p-1" @click="cardRoutePush(print.id)">{{print.set}}</p>
                             </li>
                         </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import CardService from '../services/useCardIdSearch';
 import CardComp from '../components/Cards/CardImgComp.vue';
@@ -43,8 +51,17 @@ import CardComp from '../components/Cards/CardImgComp.vue';
     const route = useRoute();
     const router = useRouter();
     const card = ref([]);
-    const prints = ref([])
-    const background = ref('')
+    const prints = ref([]);
+    const background = ref('');
+
+    const filter = ref('');
+
+    const setsSearched = computed(() => (prints.value.filter(
+        (set) => {
+
+            return set.set.toLowerCase().includes((filter.value).toLowerCase());
+        }
+    )));
 
     const setRoutePush = (code) => {
         router.push({
@@ -59,18 +76,24 @@ import CardComp from '../components/Cards/CardImgComp.vue';
         })
     }
 
-   const getCard = (id) =>{ 
-       CardService.get(id)
+   const getCard = async (id) =>  { 
+        CardService.get(id)
         .then( ({data}) => ( 
             card.value = data,
-            card.value.layout == 'normal' ? background.value=data.image_uris.art_crop : background.value=data.card_faces[0].image_uris.art_crop,
+            card.value.layout  == 'normal' || card.value.layout == 'host' || card.value.layout == 'split' || card.value.layout == 'leveler' || card.value.layout == 'flip' ? background.value=data.image_uris.art_crop : background.value=data.card_faces[0].image_uris.art_crop,
             fetch(card.value.prints_search_uri)
                 .then(resp => resp.json())
-                .then(({data:print}) => (prints.value = print))
+                .then(({data:print}) => {
+                    let cardReprintColection = [];
+                    print.map( (carta) => {
+                        cardReprintColection = [...cardReprintColection, { id: carta.id, set: carta.set_name}]
+                    })
+                    prints.value = cardReprintColection
+                })
         ))
    };
 
-   onMounted(() => {
+   onBeforeMount(() => {
         getCard(route.params.id);
    });
 
@@ -87,6 +110,7 @@ import CardComp from '../components/Cards/CardImgComp.vue';
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        z-index: 0;
     }
 
     #informacion{

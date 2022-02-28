@@ -1,11 +1,11 @@
 <template>
     <!-- <h1>Home pge: {{template}}</h1>
     <button @click="templateStore.incrementBy(15)">a</button> -->
-    <div class="min-h-[95vh]">
-        <HeaderComp class="min-h-[5vh]" />
+    <div class="min-h-[90vh]">
+        <HeaderComp class="min-h-[5vh] sticky z-10 top-0" />
         <router-view></router-view>
     </div>
-    <FooterCompVue class="min-h-[5vh]" />
+    <FooterCompVue class="min-h-[10vh]" />
 
 </template>
 

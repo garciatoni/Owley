@@ -6,12 +6,12 @@
 
             <div class="mx-auto items-center h-full md:h-[75%] w-[99%] md:w-9/12 lg:w-11/12 xl:w-8/12 self-center" >
                 
-                <div class="flex flex-row justify-between border-b-1 mb-2 opacity-90 ">
-                    <button :class="!active ? 'bg-[#160927]' : 'bg-[#745a94]' " @click="spin(false)" >Log In</button>
-                    <button :class="active ? 'bg-[#160927]' : 'bg-[#745a94]' " @click="spin(true)" >Sign In</button>
+                <div class="flex flex-row justify-between mb-1 opacity-90">
+                    <button id="btn1" :class="!active ? 'bg-[#160927]' : 'bg-[#745a94]' " @click="spin(false)" >Log In</button>
+                    <button id="btn2" :class="active ? 'bg-[#160927]' : 'bg-[#745a94]' " @click="spin(true)" >Sign In</button>
                 </div>
 
-                <div id="carta" class="h-full opacity-70">
+                <div id="carta" class="h-full">
                     <LoginFormComponent v-bind:style="{'transform': transformf}" class="front"/>
                     <RegisterFormComp v-bind:style="{'transform': transformb}" class="back"/>
                 </div>
@@ -19,8 +19,16 @@
             </div>
         </div>
 
-        <div class="hidden lg:flex lg:w-1/2">
-            <router-link class="text-white text-[7em]" to="/">home </router-link>
+        <div class="hidden lg:flex lg:w-1/2 justify-center items-center lg:flex-col">
+            <img 
+                class="w-[30rem] h-[30rem]"
+                src="../../assets/images/logo/owley_white_small.png" 
+                alt="Owley Logo"
+            >
+            <router-link class="text-white text-[7em]" to="/">
+                <p class="text-white">OWLEY</p>
+            </router-link>
+            
         </div>
 
     </div>
@@ -53,6 +61,13 @@ const spin = (activo) => {
 </script>
 <style scoped>
 
+#btn1{
+    border-radius: 20px 0 0 0;
+}
+#btn2{
+    border-radius: 0 20px 0 0;
+}
+
 #background{
     background-image: url('https://c1.scryfall.com/file/scryfall-cards/art_crop/front/e/c/ec386bc3-137b-49b5-8380-8daff470f0bc.jpg?1599710777');
     background-position: center;
@@ -68,13 +83,11 @@ const spin = (activo) => {
 }
 
 button{
-    padding: 3px;
-    width: 100%;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-    font-size: 2em;
-    font: bold;
     color: white;
+    padding: 3px;
+    font: bold;
+    font-size: 2em;
+    width: 100%;
 }
 button:hover {
         background-color: #160927;
